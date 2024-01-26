@@ -29,7 +29,7 @@ INCLUDE_DIRS 		:=
 LIBRARY_DIRS 		:=
 LIBRARIES 	 		:= SDL2
 
-PACKAGES 	 		:= pkg1
+PACKAGES 	 		:=
 PACKAGE_SRCS 		:= $(foreach package,$(PACKAGES), $(shell ls $(SRCDIR)/$(package)/*.cpp))
 PACKAGE_OBJS 		:= $(PACKAGE_SRCS:$(SRCDIR)/%.cpp=$(BUILDDIR)/%.o)
 PACKAGE_BUILDDIRS 	:= $(foreach package,$(PACKAGES), $(BUILDDIR)/$(package))
@@ -41,7 +41,7 @@ LDLIBS 		 		+= $(foreach library,$(LIBRARIES),-l$(library))
 
 MAKE_MSG 			:= [ MAKE ]
 
-.PHONY: one all clean genlsp build_packages build_tests run_tests clean_packages
+.PHONY: one all clean genlsp build_packages build_tests run_tests clean_packages run
 
 all: $(BINDIR)/$(TARGET)
 
@@ -78,6 +78,9 @@ $(PACKAGE_FOBJS): $(BUILDDIR)/%.o: $(BUILDDIR)/% | $(PACKAGE_OBJS)
 
 clean_packages:
 	@rm -rf $(PACKAGE_BUILDDIRS)
+
+run:
+	@./$(BINDIR)/$(TARGET)
 
 build_tests:
 	@echo In progress!!
