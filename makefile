@@ -27,7 +27,7 @@ SRCS 	 	 		:= $(wildcard $(SRCDIR)/*.cpp)
 OBJS 	 	 		:= $(SRCS:$(SRCDIR)/%.cpp=$(BUILDDIR)/%.o)
 INCLUDE_DIRS 		:= 
 LIBRARY_DIRS 		:=
-LIBRARIES 	 		:= SDL2
+LIBRARIES 	 		:= SDL2 SDL2_image
 
 PACKAGES 	 		:=
 PACKAGE_SRCS 		:= $(foreach package,$(PACKAGES), $(shell ls $(SRCDIR)/$(package)/*.cpp))

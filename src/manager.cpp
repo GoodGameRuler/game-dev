@@ -1,4 +1,5 @@
 #include "manager.h"
+#include "sprite.h"
 #include <iostream>
 #include <SDL2/SDL_image.h>
 
@@ -14,7 +15,7 @@ void GameManager::init() {
         exit(1);
     }
 
-    if(IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG)) {
+    if(IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG) == 0) {
         std::cout << "Game Runtime Error: failed to initialise SDL Images\n";
         std::cout << SDL_GetError();
         exit(1);
@@ -54,5 +55,29 @@ void GameManager::prepare_scene() {
 void GameManager::present_scene() {
     SDL_RenderPresent(renderer);
 }
+
+void GameManager::blit(SDL_Texture* texture, int x, int y) {
+    SDL_Rect dest;
+    dest.x = x;
+    dest.y = y;
+    SDL_QueryTexture(texture, NULL, NULL, &dest.w, &dest.h);
+    SDL_RenderCopy(renderer, texture, NULL, &dest);
+}
+
+void GameManager::blit_all() {
+    for(int i = 0; i < renderables.size(); i++) {
+        blit(renderables[i]->get_texture(), renderables[i]->get_x_pos(), renderables[i]->get_y_pos());
+    }
+}
+
+void GameManager::add_game_object(Sprite* sp) {
+    sp->init_texture(renderer);
+    renderables.push(sp);
+}
+
+void GameManager::remove_game_object(Sprite* sp) {
+    renderables.pop(sp);
+}
+
 
 GameManager::~GameManager() {}
